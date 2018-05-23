@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+<title>基于电影知识图谱的智能问答系统 -- Appleyk专栏</title>
+<style type="text/css">
+* {
+	font-size: 14px;
+	padding: 0;
+	margin: 0;
+}
+
+.main {
+	position: relative;
+	margin: 20px auto;
+	border: 1px solid steelblue;
+	width: 430px;
+	height: 400px;
+}
+
+.msgInput {
+	display: block;
+	width: 406px;
+	height: 60px;
+	margin: 10px auto;
+}
+
+.sendbtn {
+	position: absolute;
+	width: 100px;
+	height: 29px;
+	bottom: 5px;
+	right: 10px;
+}
+
+.content {
+	list-style: none;
+	width: 410px;
+	height: 280px;
+	margin: 5px auto;
+	border: 1px dotted #D1D3D6;
+	overflow-y: scroll;
+}
+
+.msgContent {
+	width: auto;
+	max-width: 250px;
+	height: auto;
+	word-break: break-all;
+	margin: 5px;
+	padding: 3px;
+	border-radius: 5px;
+}
+
+.content .left {
+	float: left;
+	text-align: left;
+	background-color: lightgrey;
+}
+
+.content .right {
+	float: right;
+	text-align: right;
+	background-color: yellowgreen;
+}
+</style>
+<style>
+html,body {
+    font-size: 14px;
+    font-family: "微软雅黑", Helvetica, Tahoma, Arial, sans-serif;
+    color: #000;
+    background-color: #30333F;
+    margin: 0;
+    padding: 0;
+}
+img {
+    border: 0;
+}
+.cf:before,.cf:after {
+    display: table;
+    content: "";
+}
+.cf:after {
+    clear: both;
+}
+.cf {
+    *zoom: 1;
+}
+canvas{
+position: fixed;
+    top: 0px;
+}
+</style>
+<script type="text/javascript">
+	window.onload = function() {
+
+		var input = document.getElementById('msg_input');//查找缓存
+		document.getElementById('sendbtn').onclick = function() {
+			sendMsg();
+		}
+
+		//enter键 发送
+		document.onkeypress = function(event) {
+			var e = event || window.event;
+			var keycode = e.keyCode || e.which;
+			console.log(e)
+			if (keycode == 13) {//按下enter键
+				sendMsg()
+			}
+		}
+
+		function sendMsg() {
+			var input = document.getElementById('msg_input');//查找缓存
+			var ul = document.getElementById('content');
+
+			var newLi = document.createElement('li');
+			newLi.innerHTML = input.value;
+			newLi.className = 'msgContent right';
+			ul.appendChild(newLi);
+
+			var div = document.createElement('div');
+			div.style = 'clear:both';
+			ul.appendChild(div);
+
+			ajax({
+				url : '/rest/appleyk/question/query?question='+ input.value,
+				success : function(res) {				
+					console.log(res);
+					var newLi = document.createElement('li');
+					newLi.innerHTML = res;
+					newLi.className = 'msgContent left';
+					ul.appendChild(newLi);
+
+					var div = document.createElement('div');
+					div.style = 'clear:both';
+					ul.appendChild(div);
+					input.value = '';
+					newLi.scrollIntoView();//将元素滚动到可见位置
+				}
+			})
+
+			input.value = '';
+			newLi.scrollIntoView();//将元素滚动到可见位置
+		}
+
+	}
+
+	function ajax(obj) {
+		var xhr = null;
+		if (window.ActiveXObject) {
+			xhr = new ActiveXObject('Microsoft.XMLHTTP')
+		} else {
+			xhr = new XMLHttpRequest();
+		}
+
+		//打开与服务器的连接
+		if (obj.method) {
+			xhr.open(obj.method, obj.url, true);
+		} else {
+			xhr.open('get', obj.url, true);
+		}
+		xhr.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Authorization",
+				"APPCODE 3e9dfb924f464e9593a95f9d2bbf4348")
+
+		xhr.onreadystatechange = function() {
+
+			if (xhr.readyState == 4) {
+				//数据接收完毕
+				if (xhr.status == 200) {
+					//console.log('请求成功',xhr.responseText)
+					if (obj.success) {
+						obj.success(xhr.responseText)
+					}
+
+				} else {
+					//console.log(xhr.status,'请求出错')
+					if (obj.failure) {
+						obj.failure('请求失败')
+					}
+				}
+			}
+		}
+		if (obj.method == undefined || obj.method.toLowerCase() == 'get') {
+			xhr.send(null);
+		} else {
+			xhr.send(obj.params);
+
+		}
+	}
+</script>
+
+</head>
+<body>
+ 	<canvas id="canvas" width="1293" height="717"></canvas>
+	<div id="main" class="main">
+		<ul id="content" class="content">
+			<li class="msgContent left">你好，我是机器人小鱼，你有什么电影方面的问题可以问我哦</li>
+			<div style="clear: both"></div>		
+		</ul>
+		<textarea id="msg_input" class="msgInput"></textarea>
+		<button id="sendbtn" class="sendbtn">发送</button>
+	</div>
+</body>
+
+<script type="text/javascript">
+window.requestAnimFrame = (function () {
+    return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function (callback) {
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
+var can = document.getElementById("canvas");
+var cxt = can.getContext("2d");
+can.width = 1920;
+can.height = 950;
+cxt.lineWidth = 0.3;
+//初始链接线条显示位置
+var mousePosition = {
+    x: 30 * can.width / 100,
+    y: 30 * can.height / 100
+}
+//圆形粒子对象参数
+var dots = {
+    n: 500,//圆形粒子个数
+    distance: 50,//圆形粒子之间的距离
+    d_radius: 100,//粒子距离鼠标点的距离
+    array: []//保存n个圆形粒子对象
+}
+//创建随即颜色值
+function colorValue(min) {
+    return Math.floor(Math.random() * 255 + min);
+}
+function createColorStyle(r, g, b) {
+    return "rgba(" + r + "," + g + "," + b + ", 1)";
+}
+//混合两个圆形粒子的颜色
+function mixConnect(c1, r1, c2, r2) {//圆的颜色 半径
+    return (c1 * r1 + c2 * r2) / (r1 + r2);
+};
+//生成线条的颜色
+function lineColor(dot1, dot2) {//获取具体的圆的颜色再计算
+    var color1 = dot1.color,
+        color2 = dot2.color;
+    var r = mixConnect(color1.r, dot1.radius, color2.r, dot2.radius);
+    var g = mixConnect(color1.g, dot1.radius, color2.g, dot2.radius);
+    var b = mixConnect(color1.b, dot1.radius, color2.b, dot2.radius);
+    return createColorStyle(Math.floor(r), Math.floor(g), Math.floor(b));
+}
+//生成圆形粒子的颜色对象
+function Color(min) {
+    min = min || 0;
+    this.r = colorValue(min);
+    this.g = colorValue(min);
+    this.b = colorValue(min);
+    this.style = createColorStyle(this.r, this.g, this.b);
+}
+//创建圆形粒子对象
+function Dot() {
+    //圆形粒子随机圆心坐标点
+    this.x = Math.random() * can.width;
+    this.y = Math.random() * can.height;
+    //x y 方向运动的速度值
+    this.vx = -0.5 + Math.random();
+    this.vy = -0.5 + Math.random();
+
+    this.radius = Math.random() * 5;
+    //this.color = "#ff3333";
+    this.color = new Color();
+}
+//绘制出圆形粒子
+Dot.prototype.draw = function () {
+    cxt.beginPath();
+    cxt.fillStyle = this.color.style;
+    cxt.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    cxt.fill();
+}
+//添加圆形粒子
+function createCircle() {
+	/*<![CDATA[*/  for (var i = 0; i < dots.n; i++) {
+        dots.array.push(new Dot());
+    }/*<![CDATA[*/
+}
+//绘制出圆形粒子
+function drawDots() {
+    for (var i = 0; i < dots.n; i++) {
+        var dot = dots.array[i];
+        dot.draw();
+    }
+}
+
+//drawDots();
+//移动
+function moveDots() {
+    for (var i = 0; i < dots.n; i++) {
+        var dot = dots.array[i];
+        //当圆形粒子对象碰壁的时候就反弹回来
+        if (dot.y < 0 || dot.y > can.height) {
+            dot.vx = dot.vx;
+            dot.vy = -dot.vy;
+        } else if (dot.x < 0 || dot.x > can.width) {
+            dot.vx = -dot.vx;
+            dot.vy = dot.vy;
+        }
+        //给圆形粒子圆心坐标加上速度值移动圆形粒子
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+    }
+}
+//链接粒子对象
+function connectDots() {
+    for (var i = 0; i < dots.n; i++) {
+        for (var j = 0; j < dots.n; j++) {
+            iDot = dots.array[i];
+            jDot = dots.array[j];
+            /*<![CDATA[*/  if ((iDot.x - jDot.x) < dots.distance && (iDot.y - jDot.y) < dots.distance && (iDot.x - jDot.x) > -dots.distance && (iDot.y - jDot.y) > -dots.distance) {
+                if ((iDot.x - mousePosition.x) < dots.d_radius && (iDot.y - mousePosition.y) < dots.d_radius && (iDot.x - mousePosition.x) > -dots.d_radius && (iDot.y - mousePosition.y) > -dots.d_radius) {
+                    cxt.beginPath();
+                    //cxt.strokeStyle = "yellow";
+                    cxt.strokeStyle = lineColor(iDot, jDot);
+                    cxt.moveTo(iDot.x, iDot.y);
+                    cxt.lineTo(jDot.x, jDot.y);
+                    cxt.closePath();
+                    cxt.stroke();
+                }
+
+            }/*]]>*/
+        }
+    }
+}
+createCircle();
+//让圆形粒子不断的移动
+function animateDots() {
+    cxt.clearRect(0, 0, can.width, can.height);
+    moveDots();
+    connectDots()
+    drawDots();
+    requestAnimFrame(animateDots);
+}
+animateDots();
+
+can.onmousemove = function (ev) {
+    var ev = ev || window.event;
+    mousePosition.x = ev.pageX;
+    mousePosition.y = ev.pageY;
+}
+can.onmouseout = function () {
+    mousePosition.x = can.width / 2;
+    mousePosition.y = can.height / 2;
+}
+</script>
+</html>
