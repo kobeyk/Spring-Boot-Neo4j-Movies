@@ -62,8 +62,8 @@
 		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
 		<dependency>
 			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.11</artifactId>
-			<version>2.3.0</version>
+			<artifactId>spark-core_2.12</artifactId>
+			<version>2.4.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -74,8 +74,8 @@
 		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
 		<dependency>
 			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-mllib_2.11</artifactId>
-			<version>2.3.0</version>
+			<artifactId>spark-mllib_2.12</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.janino</groupId>
