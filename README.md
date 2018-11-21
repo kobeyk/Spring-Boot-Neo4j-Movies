@@ -23,3 +23,4 @@ spark2.4  == >scala2.11 and scala2.12
 
 
 如果down下来的demo在本地无法运行，请自行降低版本，保证本地spark环境的版本号和pom中的spark依赖的jar包版本一致！
+
