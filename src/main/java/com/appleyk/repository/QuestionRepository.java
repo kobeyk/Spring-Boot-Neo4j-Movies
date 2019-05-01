@@ -1,10 +1,11 @@
 package com.appleyk.repository;
 
-import java.util.List;
-
+import com.appleyk.node.Movie;
 import org.springframework.data.neo4j.annotation.Query;
-import org.springframework.data.neo4j.repository.GraphRepository;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.data.repository.query.Param;
  * @blob   http://blog.csdn.net/appleyk
  * @date   2018年5月10日-下午3:48:51
  */
-public interface QuestionRepository extends GraphRepository<Long> {
+public interface QuestionRepository extends Neo4jRepository<Movie,Long> {
 
 	/**
 	 * 0 对应问题模板0 == nm(电影) 评分
