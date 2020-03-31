@@ -1,4 +1,4 @@
-package com.appleyk.node;
+package com.appleyk.model;
 
 import java.util.List;
 

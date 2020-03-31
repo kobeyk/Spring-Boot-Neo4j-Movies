@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appleyk.node.Genre;
+import com.appleyk.model.Genre;
 import com.appleyk.repository.GenreRepository;
 import com.appleyk.result.ResponseMessage;
 import com.appleyk.result.ResponseResult;

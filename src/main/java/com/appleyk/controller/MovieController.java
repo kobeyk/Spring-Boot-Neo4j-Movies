@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appleyk.node.Movie;
+import com.appleyk.model.Movie;
 import com.appleyk.repository.MovieRepository;
 import com.appleyk.result.ResponseMessage;
 import com.appleyk.result.ResponseResult;
@@ -34,7 +34,7 @@ public class MovieController {
       
     /**
      * 创建一个电影节点
-     * @param genre
+     * @param movie
      * @return
      */
     @PostMapping("/save")  

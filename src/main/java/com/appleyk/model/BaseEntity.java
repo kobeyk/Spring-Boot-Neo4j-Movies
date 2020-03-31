@@ -1,4 +1,4 @@
-package com.appleyk.node;
+package com.appleyk.model;
 
 import org.neo4j.ogm.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;

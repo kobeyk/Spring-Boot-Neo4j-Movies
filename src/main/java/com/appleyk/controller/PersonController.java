@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appleyk.node.Person;
+import com.appleyk.model.Person;
 import com.appleyk.repository.PersonRepository;
 import com.appleyk.result.ResponseMessage;
 import com.appleyk.result.ResponseResult;
@@ -24,7 +24,7 @@ public class PersonController {
 	/**
 	 * 根据演员名查询Person实体
 	 * 
-	 * @param title
+	 * @param name
 	 * @return
 	 */
 	@RequestMapping("/get")
@@ -35,7 +35,7 @@ public class PersonController {
 	/**
 	 * 创建一个演员节点
 	 * 
-	 * @param genre
+	 * @param person
 	 * @return
 	 */
 	@PostMapping("/save")

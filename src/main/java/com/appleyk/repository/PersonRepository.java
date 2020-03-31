@@ -1,6 +1,6 @@
 package com.appleyk.repository;
 
-import com.appleyk.node.Person;
+import com.appleyk.model.Person;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
