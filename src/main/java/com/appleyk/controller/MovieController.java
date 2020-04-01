@@ -16,7 +16,7 @@ import com.appleyk.result.ResponseResult;
 import com.appleyk.result.ResultData;
 
 @RestController
-@RequestMapping("/rest/appleyk/movie") //restful风格的api接口  
+@RequestMapping("/rest/appleyk/movie")
 public class MovieController {
    
 	@Autowired  

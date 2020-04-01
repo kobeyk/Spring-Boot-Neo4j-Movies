@@ -10,9 +10,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public abstract class BaseEntity {
 
-	/**
-	 * Neo4j会分配的ID（节点唯一标识 当前类中有效）
-	 */
+	/**Neo4j会分配的ID（节点唯一标识 当前类中有效）*/
 	@Id
 	private Long id;	
 	public Long getId() {
@@ -23,5 +21,4 @@ public abstract class BaseEntity {
 		this.id = id;
 	}
 
-	
 }

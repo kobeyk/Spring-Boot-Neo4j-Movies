@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * 
  * @blob   http://blog.csdn.net/appleyk
  * @date   2018年5月10日-下午3:44:37
- * @param <T>
  */
 public class ResponseResult implements Serializable {
 

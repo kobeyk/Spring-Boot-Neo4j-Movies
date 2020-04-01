@@ -28,72 +28,51 @@ import com.hankcs.hanlp.seg.common.Term;
 /**
  * Spark贝叶斯分类器 + HanLP分词器 + 实现问题语句的抽象+模板匹配+关键性语句还原
  * @blob   http://blog.csdn.net/appleyk
- * @date   2018年5月9日-上午10:07:52
+ * @date   updated on 2020年4月1日-下午23:52:00
  */
-public class ModelProcess {
+public class CoreProcessor {
 
-	/**
-	 * 指定问题question及字典的txt模板所在的根目录
-	 */
-    private String rootDirPath;
+	/**指定问题question及字典的txt模板所在的根目录*/
+	private String rootDirPath;
 
-	/**
-	 * 分类标签号和问句模板对应表
-	 */
-	Map<Double, String> questionsPattern;
+	/**Spark贝叶斯分类器*/
+	private NaiveBayesModel nbModel;
 
-	/**
-	 * Spark贝叶斯分类器
-	 */
-	NaiveBayesModel nbModel;
+	/**分类标签号和问句模板对应表*/
+	private Map<Double, String> questionsPattern;
 
-	/**
-	 * 词语和下标的对应表   == 词汇表
-	 */
-	Map<String, Integer> vocabulary;
+	/**词语和下标的对应表   == 词汇表*/
+	private Map<String, Integer> vocabulary;
 
-	/**
-	 * 关键字与其词性的map键值对集合 == 句子抽象
-	 */
-	Map<String, String> abstractMap;
+	/**关键字与其词性的map键值对集合 == 句子抽象*/
+	private Map<String, String> abstractMap;
 
-
-	/**
-	 * 分类模板索引
-	 */
+	/** 分类模板索引*/
 	int modelIndex = 0;
 
-	public ModelProcess(String rootDirPath) throws Exception{
-        this.rootDirPath = rootDirPath+'/';
+	public CoreProcessor(String rootDirPath) throws Exception{
+		this.rootDirPath = rootDirPath+'/';
 		questionsPattern = loadQuestionsPattern();
 		vocabulary = loadVocabulary();
 		nbModel = loadClassifierModel();
 	}
 
-	public ArrayList<String> analyQuery(String queryString) throws Exception {
+	public ArrayList<String> analysis(String queryString) throws Exception {
 
-		/**
-		 * 打印问句
-		 */
+		/**打印问句*/
 		System.out.println("原始句子："+queryString);
 		System.out.println("========HanLP开始分词========");
 
-		/**
-		 * 抽象句子，利用HanPL分词，将关键字进行词性抽象
-		 */
+		/**抽象句子，利用HanPL分词，将关键字进行词性抽象*/
 		String abstr = queryAbstract(queryString);
 		System.out.println("句子抽象化结果："+abstr);// nm 的 导演 是 谁
 
-		/**
-		 * 将抽象的句子与spark训练集中的模板进行匹配，拿到句子对应的模板
-		 */
+		/**将抽象的句子与spark训练集中的模板进行匹配，拿到句子对应的模板*/
 		String strPatt = queryClassify(abstr);
 		System.out.println("句子套用模板结果："+strPatt); // nm 制作 导演列表
 
 
-		/**
-		 * 模板还原成句子，此时问题已转换为我们熟悉的操作
-		 */
+		/**模板还原成句子，此时问题已转换为我们熟悉的操作*/
 		String finalPattern = queryExtension(strPatt);
 		System.out.println("原始句子替换成系统可识别的结果："+finalPattern);// 但丁密码 制作 导演列表
 
@@ -186,7 +165,7 @@ public class ModelProcess {
 		try {
 			while ((line = br.readLine()) != null) {
 				String[] tokens = line.split(":");
-				int index = Integer.parseInt(tokens[0]);
+				int index = Integer.parseInt(tokens[0].replace("\uFEFF",""));
 				String word = tokens[1];
 				vocabulary.put(word, index);
 			}
@@ -210,14 +189,10 @@ public class ModelProcess {
 		String content = "";
 		String line;
 		while ((line = br.readLine()) != null) {
-			/**
-			 * 文本的换行符暂定用"`"代替
-			 */
+			/**文本的换行符暂定用"`"代替*/
 			content += line + "`";
 		}
-		/**
-		 * 关闭资源
-		 */
+		/**关闭资源*/
 		br.close();
 		return content;
 	}
@@ -231,23 +206,17 @@ public class ModelProcess {
 	public  double[] sentenceToArrays(String sentence) throws Exception {
 
 		double[] vector = new double[vocabulary.size()];
-		/**
-		 * 模板对照词汇表的大小进行初始化，全部为0.0
-		 */
+		/**模板对照词汇表的大小进行初始化，全部为0.0*/
 		for (int i = 0; i < vocabulary.size(); i++) {
 			vector[i] = 0;
 		}
 
-		/**
-		 * HanLP分词，拿分词的结果和词汇表里面的关键特征进行匹配
-		 */
+		/** HanLP分词，拿分词的结果和词汇表里面的关键特征进行匹配*/
 		Segment segment = HanLP.newSegment();
 		List<Term> terms = segment.seg(sentence);
 		for (Term term : terms) {
 			String word = term.word;
-			/**
-			 * 如果命中，0.0 改为 1.0
-			 */
+			/**如果命中，0.0 改为 1.0*/
 			if (vocabulary.containsKey(word)) {
 				int index = vocabulary.get(word);
 				vector[index] = 1;
@@ -301,7 +270,6 @@ public class ModelProcess {
 		List<LabeledPoint> train_list = new LinkedList<LabeledPoint>();
 		String[] sentences = null;
 
-
 		/**
 		 * 英雄的评分是多少
 		 */
@@ -324,7 +292,6 @@ public class ModelProcess {
 			train_list.add(train_one);
 		}
 
-
 		/**
 		 * 英雄是什么类型的
 		 */
@@ -335,7 +302,6 @@ public class ModelProcess {
 			LabeledPoint train_one = new LabeledPoint(2.0, Vectors.dense(array));
 			train_list.add(train_one);
 		}
-
 
 		/**
 		 * 英雄的简介、英雄的剧情是什么
@@ -359,7 +325,6 @@ public class ModelProcess {
 			train_list.add(train_one);
 		}
 
-
 		/**
 		 * 章子怡
 		 */
@@ -381,7 +346,6 @@ public class ModelProcess {
 			LabeledPoint train_one = new LabeledPoint(6.0, Vectors.dense(array));
 			train_list.add(train_one);
 		}
-
 
 		/**
 		 * 周星驰演了哪些电影
@@ -405,7 +369,6 @@ public class ModelProcess {
 			train_list.add(train_one);
 		}
 
-
 		/**
 		 * 巩俐参演的电影评分在8.5分以下的有哪些、巩俐参演的电影评分小于8.5分的有哪些
 		 */
@@ -416,7 +379,6 @@ public class ModelProcess {
 			LabeledPoint train_one = new LabeledPoint(9.0, Vectors.dense(array));
 			train_list.add(train_one);
 		}
-
 
 		/**
 		 * 章子怡演过哪些类型的电影
@@ -440,7 +402,6 @@ public class ModelProcess {
 			train_list.add(train_one);
 		}
 
-
 		/**
 		 * 章子怡与李连杰合作过哪些电影、章子怡和巩俐一起演过什么电影
 		 */
@@ -451,7 +412,6 @@ public class ModelProcess {
 			LabeledPoint train_one = new LabeledPoint(12.0, Vectors.dense(array));
 			train_list.add(train_one);
 		}
-
 
 		/**
 		 * 章子怡的生日是多少、章子怡的出生日期是什么时候
@@ -473,14 +433,10 @@ public class ModelProcess {
 		JavaRDD<LabeledPoint> trainingRDD = sc.parallelize(train_list);
 		NaiveBayesModel nb_model = NaiveBayes.train(trainingRDD.rdd());
 
-		/**
-		 * 记得关闭资源
-		 */
+		/** 记得关闭资源*/
 		sc.close();
 
-		/**
-		 * 返回贝叶斯分类器
-		 */
+		/** 返回贝叶斯分类器*/
 		return nb_model;
 
 	}
@@ -502,7 +458,7 @@ public class ModelProcess {
 		try {
 			while ((line = br.readLine()) != null) {
 				String[] tokens = line.split(":");
-				double index = Double.valueOf(tokens[0]);
+				double index = Double.valueOf(tokens[0].replace("\uFEFF",""));
 				String pattern = tokens[1];
 				questionsPattern.put(index, pattern);
 			}
@@ -539,15 +495,7 @@ public class ModelProcess {
 		return questionsPattern.get(index);
 	}
 
-    public String getRootDirPath() {
-        return rootDirPath;
-    }
-
-    public void setRootDirPath(String rootDirPath) {
-        this.rootDirPath = rootDirPath;
-    }
-
-    public static void main(String[] agrs) throws Exception {
+	public static void main(String[] agrs){
 		System.out.println("Hello World !");
 	}
 }

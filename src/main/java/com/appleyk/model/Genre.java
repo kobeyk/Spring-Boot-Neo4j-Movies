@@ -5,7 +5,6 @@ import org.neo4j.ogm.annotation.NodeEntity;
 @NodeEntity
 public class Genre extends BaseEntity{
 
-
 	private Long gid;
     private String  name;
     

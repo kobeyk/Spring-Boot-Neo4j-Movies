@@ -1,12 +1,12 @@
 package com.appleyk.config;
 
-import com.appleyk.core.ModelProcess;
+import com.appleyk.core.CoreProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Bean配置类</p>
+ * <p>全局Bean配置类</p>
  *
  * @author Appleyk
  * @version V.0.1.1
@@ -23,8 +23,8 @@ public class ConfigBean {
     private String rootDirPath;
 
     @Bean
-    public ModelProcess modelProcess() throws Exception{
-        return new ModelProcess(rootDirPath);
+    public CoreProcessor modelProcess() throws Exception{
+        return new CoreProcessor(rootDirPath);
     }
 
 }

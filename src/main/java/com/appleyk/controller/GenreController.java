@@ -20,11 +20,10 @@ public class GenreController {
 	
 	@Autowired
 	GenreRepository genreRepository;  
-	
 
 	/**
 	 * 根据类型名查询Genre实体
-	 * @param title
+	 * @param name 名称
 	 * @return
 	 */
     @RequestMapping("/get")  
@@ -34,7 +33,7 @@ public class GenreController {
       
     /**
      * 创建一个电影类型节点
-     * @param genre
+     * @param genre 类别
      * @return
      */
     @PostMapping("/save")  

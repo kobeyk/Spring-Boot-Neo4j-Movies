@@ -5,7 +5,6 @@ package com.appleyk.result;
  * 
  * @blob   http://blog.csdn.net/appleyk
  * @date   2018年5月10日-下午3:44:37
- * @param <T>
  */
 public enum ResponseMessage {
 
