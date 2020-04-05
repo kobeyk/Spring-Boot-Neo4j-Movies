@@ -9,7 +9,7 @@ Spring-Boot集成Neo4j并利用Spark的朴素贝叶斯分类器实现基于电�
 spark2.4  == >scala2.11 and scala2.12
 
 
-、、、text
+```text
 
 <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
 		<dependency>
@@ -30,7 +30,7 @@ spark2.4  == >scala2.11 and scala2.12
 			<version>2.4.0</version>
 		</dependency>
 
-、、、
+```
 
 
 
