@@ -10,17 +10,13 @@ import com.appleyk.service.QuestionService;
 @RestController
 @RequestMapping("/rest/appleyk/question")
 public class QuestionController {
-	
-	@Autowired
-	QuestionService questService;
-	
-	@RequestMapping("/query")
-	public String query(@RequestParam(value = "question") String question) throws Exception {
-		return questService.answer(question);
-	}
-	
-	@RequestMapping("/path")
-	public void checkPath(){
-		questService.showDictPath();
-	}
+
+    @Autowired
+    QuestionService questService;
+
+    @RequestMapping("/query")
+    public String query(@RequestParam(value = "question") String question) throws Exception {
+        return questService.answer(question);
+    }
+
 }

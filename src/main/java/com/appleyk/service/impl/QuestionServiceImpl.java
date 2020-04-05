@@ -18,25 +18,13 @@ import com.appleyk.service.QuestionService;
  * <p>核心问答业务实现类</p>
  *
  * @author Appleyk
- * @version V.0.1.1
+ * @version V.0.1.2
  * @blob https://blog.csdn.net/Appleyk
  * @date updated on 21:21 2020/3/31
  */
 @Service
 @Primary
 public class QuestionServiceImpl implements QuestionService {
-
-    @Value("${rootDirPath}")
-    private String rootDictPath;
-
-    @Value("${HanLP.CustomDictionary.path.movieDict}")
-    private String movieDictPath;
-
-    @Value("${HanLP.CustomDictionary.path.genreDict}")
-    private String genreDictPath;
-
-    @Value("${HanLP.CustomDictionary.path.scoreDict}")
-    private String scoreDictPath;
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -45,23 +33,15 @@ public class QuestionServiceImpl implements QuestionService {
     private CoreProcessor queryProcess;
 
     @Override
-    public void showDictPath() {
-        System.out.println("HanLP分词字典及自定义问题模板根目录：" + rootDictPath);
-        System.out.println("用户自定义扩展词库【电影】：" + movieDictPath);
-    }
-
-    @Override
     public String answer(String question) throws Exception {
 
-        ArrayList<String> reStrings = queryProcess.analysis(question);
+        List<String> reStrings = queryProcess.analysis(question);
         int modelIndex = Integer.valueOf(reStrings.get(0));
-        String answer = null;
-        String title = "";
-        String name = "";
+        String answer =null;
+        String title;
+        String name;
 
-        /**
-         * 匹配问题模板
-         */
+        /**匹配问题模板*/
         switch (modelIndex) {
             case 0:
                 answer = getMovieRating(reStrings);
@@ -122,15 +102,15 @@ public class QuestionServiceImpl implements QuestionService {
                 break;
         }
         System.out.println(answer);
-        if (answer != null && !answer.equals("") && !answer.equals("\\N")) {
+        if (answer != null && !"".equals(answer) && !("\\N").equals(answer)) {
             return answer;
         } else {
-            return "sorry,我没有找到你要的答案";
+            return "sorry,小主,我没有找到你要的答案";
         }
     }
 
     /**nm 评分 == 电影评分*/
-    private String getMovieRating(ArrayList<String> reStrings) {
+    private String getMovieRating(List<String> reStrings) {
         String title;
         Double score;
         String answer;
@@ -147,7 +127,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /** nm 上映时间 == 电影上映时间*/
-    private String getMovieReleaseDate(ArrayList<String> reStrings) {
+    private String getMovieReleaseDate(List<String> reStrings) {
         String title;
         String answer;
         title = reStrings.get(1);
@@ -161,7 +141,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /**nm 类型 == 电影类型*/
-    private String getMovieTypes(ArrayList<String> reStrings) {
+    private String getMovieTypes(List<String> reStrings) {
         String title;
         String answer;
         title = reStrings.get(1);
@@ -175,7 +155,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /** nm 演员列表 == 电影演员列表*/
-    private String getMovieActors(ArrayList<String> reStrings) {
+    private String getMovieActors(List<String> reStrings) {
         String title;
         String answer;
         title = reStrings.get(1);
@@ -189,7 +169,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /** nnt 电影类型 ng == 演员演过的x类型的电影有哪些*/
-    private String getMoviesByType(ArrayList<String> reStrings) {
+    private String getMoviesByType(List<String> reStrings) {
         String name;
         String type;
         String answer;
@@ -210,7 +190,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /** 1 2 3 4 nnt 参演评分 大于 x == 演员参演的电影评分大于x的有哪些*/
-    private String getMoviesByHScore(ArrayList<String> reStrings) {
+    private String getMoviesByHScore(List<String> reStrings) {
         String name;
         Double score;
         String answer;
@@ -225,7 +205,7 @@ public class QuestionServiceImpl implements QuestionService {
         return answer;
     }
 
-    private String getMoviesCount(ArrayList<String> reStrings) {
+    private String getMoviesCount(List<String> reStrings) {
         String name;
         String answer;
         name = reStrings.get(1);
@@ -239,7 +219,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /** 1 2 3 4 nnt 参演评分 小于 x == 演员参演的电影评分小于x的有哪些 */
-    private String getActorMoviesByLScore(ArrayList<String> reStrings) {
+    private String getActorMoviesByLScore(List<String> reStrings) {
         String name;
         Double score;
         String answer;
@@ -255,7 +235,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /**= nnt 电影类型 == 演员参演的电影类型有哪些*/
-    private String getActorMoviesType(ArrayList<String> reStrings) {
+    private String getActorMoviesType(List<String> reStrings) {
         String name;
         String answer;
         name = reStrings.get(1);
@@ -269,7 +249,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     /**1 2 3 4 nnt nnr 合作 电影列表 == 演员A和演员B合作的电影有哪些*/
-    private String getActorMovies(ArrayList<String> reStrings) {
+    private String getActorMovies(List<String> reStrings) {
         String name;
         String answer;
         name = reStrings.get(1);

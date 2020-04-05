@@ -11,7 +11,7 @@ import java.io.*;
  * <p>全局配启动 -- 初始化项目时，执行命令，将相关额外的自定义词典加载下</p>
  *
  * @author Appleyk
- * @version V.0.1.1
+ * @version V.0.1.2
  * @blob https://blog.csdn.net/Appleyk
  * @date created on 21:25 2020/3/31
  */
@@ -31,7 +31,7 @@ public class ConfigRunner implements CommandLineRunner {
     private String cacheDictPath;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
 
         //先删除缓存
         File file = new File(cacheDictPath);
@@ -40,11 +40,11 @@ public class ConfigRunner implements CommandLineRunner {
             System.out.println("CustomDictionary.txt.bin delete success .");
         }
 
-        /**加载自定义的电影字典 == 设置词性 nm 0*/
+        /**加载自定义的【电影】字典 == 设置词性 nm 0*/
         loadDict(movieDictPath,0);
-        /**加载自定义的类型字典 == 设置词性 ng 0*/
+        /**加载自定义的【类型】字典 == 设置词性 ng 0*/
         loadDict(genreDictPath,1);
-        /**加载自定义的评分字典 == 设置词性 x 0*/
+        /**加载自定义的【评分】字典 == 设置词性 x 0*/
         loadDict(scoreDictPath,2);
 
     }
@@ -100,6 +100,5 @@ public class ConfigRunner implements CommandLineRunner {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

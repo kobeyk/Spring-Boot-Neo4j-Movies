@@ -16,13 +16,10 @@ public class BayesTest {
 	@Test
 	public void TestA(){
 		
-		/**
-		 * 本地模式，*表示启用多个线程并行计算
-		 */
+		/**本地模式，*表示启用多个线程并行计算*/
 		SparkConf conf = new SparkConf().setAppName("NaiveBayesTest").setMaster("local[*]");
 		JavaSparkContext sc = new JavaSparkContext(conf);
-		
-		
+
 		/**
 		 * MLlib的本地向量主要分为两种，DenseVector和SparseVector
 		 * 前者是用来保存稠密向量，后者是用来保存稀疏向量		 

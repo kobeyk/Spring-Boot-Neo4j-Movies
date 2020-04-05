@@ -50,3 +50,5 @@
 ![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_2.jpg)
 <br><br>
 ![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_3.jpg)
+<br><br>
+![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_4.png)

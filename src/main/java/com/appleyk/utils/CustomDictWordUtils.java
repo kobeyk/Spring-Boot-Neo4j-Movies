@@ -9,7 +9,7 @@ import com.hankcs.hanlp.dictionary.CustomDictionary;
  * <p>自定义字典单词工具类（设置词性、词频）</p>
  *
  * @author Appleyk
- * @version V.0.1.1
+ * @version V.0.1.2
  * @blob https://blog.csdn.net/Appleyk
  * @date created on 9:44 2020/4/1
  */
@@ -29,7 +29,7 @@ public class CustomDictWordUtils {
             return;
         }
 
-        /**如果强制的话，先看自带的hanlp有没有这个单词的定义，就有重置，没有就普通添加*/
+        /**如果强制的话，先看自带的HanLp有没有这个单词的定义，就有重置，没有就普通添加*/
         if(CustomDictionary.contains(word)){
             unsetNatureAndFrequency(word,natureWithFrequency);
         }else{
@@ -46,9 +46,9 @@ public class CustomDictWordUtils {
     public static void unsetNatureAndFrequency(String word, String natureWithFrequency){
 
         String[] natureWithFrequencyArr = natureWithFrequency.split(" ");
-        /*新词性*/
+        /**新词性*/
         Nature natureNew = null;
-        /*新词频*/
+        /**新词频*/
         int frequencyNew = 0 ;
         if(natureWithFrequencyArr!=null && natureWithFrequencyArr.length == 2){
             natureNew =  Nature.create(natureWithFrequencyArr[0]);
@@ -62,13 +62,12 @@ public class CustomDictWordUtils {
         }
         Nature[] nature = attribute.nature;
         int[] frequency = attribute.frequency;
-        if(natureNew!=null && nature!=null && nature.length>1){
+        if(natureNew!=null && nature!=null && nature.length>0){
             nature[0] = natureNew;
         }
-        if(frequency!=null && frequency.length>1){
+        if(frequency!=null && frequency.length>0){
             frequency[0] = frequencyNew;
         }
-
     }
 
 }
