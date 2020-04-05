@@ -91,7 +91,8 @@ public class CoreProcessor {
 		List<Term> terms = segment.seg(querySentence);
 		String abstractQuery = "";
 		abstractMap = new HashMap<>();
-		int nrCount = 0; //nr 人名词性这个 词语出现的频率
+		// nr 人名词性这个 词语出现的频率
+		int nrCount = 0;
 		for (Term term : terms) {
 			String word = term.word;
 			String termStr = term.toString();
@@ -126,22 +127,16 @@ public class CoreProcessor {
 		// 句子还原
 		Set<String> set = abstractMap.keySet();
 		for (String key : set) {
-			/**
-			 * 如果句子模板中含有抽象的词性
-			 */
+			/**如果句子模板中含有抽象的词性*/
 			if (queryPattern.contains(key)) {
 
-				/**
-				 * 则替换抽象词性为具体的值 
-				 */
+				/**则替换抽象词性为具体的值*/
 				String value = abstractMap.get(key);
 				queryPattern = queryPattern.replace(key, value);
 			}
 		}
 		String extendedQuery = queryPattern;
-		/**
-		 * 当前句子处理完，抽象map清空释放空间并置空，等待下一个句子的处理
-		 */
+		/**当前句子处理完，抽象map清空释放空间并置空，等待下一个句子的处理*/
 		abstractMap.clear();
 		abstractMap = null;
 		return extendedQuery;
