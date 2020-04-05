@@ -12,23 +12,24 @@ spark2.4  == >scala2.11 and scala2.12
 ```text
 
 <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-core_2.12</artifactId>
-			<version>2.4.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
-		<dependency>
-			<groupId>org.apache.spark</groupId>
-			<artifactId>spark-mllib_2.12</artifactId>
-			<version>2.4.0</version>
-		</dependency>
+<dependency>
+	<groupId>org.apache.spark</groupId>
+	<artifactId>spark-core_2.12</artifactId>
+	<version>2.4.0</version>
+	<exclusions>
+		<exclusion>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
+<dependency>
+	<groupId>org.apache.spark</groupId>
+	<artifactId>spark-mllib_2.12</artifactId>
+	<version>2.4.0</version>
+</dependency>
+
 
 ```
 
