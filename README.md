@@ -43,12 +43,14 @@
 ### 运行图例：<br><br>
 
 
-![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res.png)
+![效果展示](http://chuantu.xyz/t6/740/1597558049x1700340427.png)
 <br><br>
-![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_1.jpg)
+![效果展示](http://chuantu.xyz/t6/740/1597558124x1700340449.jpg)
 <br><br>
-![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_2.jpg)
+![效果展示](http://chuantu.xyz/t6/740/1597558181x1700339730.jpg)
 <br><br>
-![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_3.jpg)
+![效果展示](http://chuantu.xyz/t6/740/1597558195x1700340465.jpg)
 <br><br>
-![效果展示](https://github.com/kobeyk/Spring-Boot-Neo4j-Movies/blob/master/src/main/resources/statics/res_4.png)
+![效果展示](http://chuantu.xyz/t6/740/1597558219x1700340427.png)
+<br><br>
+![效果展示](http://chuantu.xyz/t6/740/1597558278x1700340465.png)
