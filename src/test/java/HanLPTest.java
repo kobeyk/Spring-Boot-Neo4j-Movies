@@ -35,6 +35,15 @@ public class HanLPTest {
         customDict(lineStr,"海尔","nb 0");
     }
 
+    @Test
+    public void unsetNatureAndFrequency1(){
+        String lineStr = "The movie Jianguo Daye is really good! I want to buy a Haier refrigerator";
+        customDict(lineStr,"Jianguo Daye","nb 0");
+        System.out.println("====== ======");
+        customDict(lineStr,"Haier","nb 0");
+    }
+
+
     private void customDict(String lineStr ,String word,String natureAndFrequency ) {
         try{
             Segment segment = HanLP.newSegment();
